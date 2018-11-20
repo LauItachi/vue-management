@@ -107,6 +107,7 @@
 <script>
     import Schart from 'vue-schart';
     import bus from '../common/bus';
+    import io from 'socket.io-client';
     export default {
         name: 'dashboard',
         data() {
@@ -202,6 +203,17 @@
             window.removeEventListener('resize', this.renderChart);
             bus.$off('collapse', this.handleBus);
         },
+        mounted(){
+            this.socket = io('localhost:3001');
+            this.socket.on('CONNECTED', (rcvMsg) => {
+                console.log('ON[CONNECTED] dashboard: rcvMsg '+JSON.stringify(rcvMsg)); // rcvMsg: { code, message, result }
+                this.popNotice('New socket message', rcvMsg);
+            });
+        },
+        destroyed(){
+            this.socket.close();
+            console.log('socket closed');
+        },
         methods: {
             changeDate(){
                 const now = new Date().getTime();
@@ -223,7 +235,15 @@
             renderChart(){
                 this.$refs.bar.renderChart();
                 this.$refs.line.renderChart();
-            }
+            },
+            popNotice(title, content) {
+                const h = this.$createElement;
+                this.$notify({
+                    title: title,
+                    message: h('i', { style: 'color: teal'}, content),
+                    duration: 2000
+                });
+            },
         }
     }
 

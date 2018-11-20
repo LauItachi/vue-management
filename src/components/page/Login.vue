@@ -2,19 +2,19 @@
     <div class="login-wrap">
         <div class="ms-login">
             <div class="ms-title">后台管理系统</div>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
+            <el-form :model="loginForm" ref="loginForm" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="username">
+                    <el-input v-model="loginForm.username" placeholder="username">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                    <el-input type="password" placeholder="password" v-model="loginForm.password">
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="checkLogin">登录</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -26,32 +26,36 @@
     export default {
         data: function(){
             return {
-                ruleForm: {
+                loginForm: {
                     username: 'admin',
-                    password: '123123'
+                    password: '12345'
                 },
-                rules: {
-                    username: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                    ]
-                }
             }
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
+            checkLogin() {
+                console.log('checkLogin() called');
+                let data = {
+                    username: this.loginForm.username,
+                    password: this.loginForm.password,
+                };
+                this.$axios.post("/users/login", data).then( res => { // res: { code, message, result }
+                    console.log('POST /users/login Response: '+JSON.stringify(res.data));
+                    if( res.data.code === 3301 ){
+                        localStorage.setItem('ms_username', res.data.result.username); 
+                        this.popNotice('Login successfully', 'Login As '+res.data.result.username);
+                        this.$router.push( {name: 'home'} );
                     }
                 });
-            }
+            },
+            popNotice(title, content) {
+                const h = this.$createElement;
+                this.$notify({
+                    title: title,
+                    message: h('i', { style: 'color: teal'}, content),
+                    duration: 2000
+                });
+            },
         }
     }
 </script>

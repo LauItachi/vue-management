@@ -2,7 +2,7 @@
 // Template version: 1.2.7
 // see http://vuejs-templates.github.io/webpack for documentation.
 
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   dev: {
@@ -11,16 +11,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
-          target:'http://jsonplaceholder.typicode.com',
-          changeOrigin:true,
-          pathRewrite:{
-              '/api':''
-          }
+      '/api': {
+        target: 'http://jsonplaceholder.typicode.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '/api': ''
+        }
       },
-      '/ms':{
-          target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-          changeOrigin: true
+      '/ms': {
+        target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
+        changeOrigin: true
+      },
+      '/user': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
       }
     },
     // Various Dev Server settings
@@ -31,7 +35,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -82,4 +86,4 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report
   }
-}
+};
