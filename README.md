@@ -1,8 +1,11 @@
 # vue-manage-system #
-基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。
+[Forked]基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。
 > 原项目：[[vue-manage-system]-[lin-xin]-Github](https://github.com/lin-xin/vue-manage-system/) → [[线上地址]](http://blog.gdfengshuo.com/example/work/)
+
 > 推荐命名规范：[[看看这些被同事喷的JS代码风格你写过多少]-[殷荣桧@腾讯]-掘金](https://juejin.im/post/5becf928f265da61380ec986)
+
 > 箭头函数：[[[译]JS箭头函数三连问：为何用、怎么用、何时用]-[kitety]-掘金](https://juejin.im/post/5be599d4e51d451d23633ec8)
+
 ## 功能
 - [x] Element UI
 - [x] 登录/注销
